@@ -1,0 +1,10 @@
+{
+  "name": "Pirates of the Caribbean Hunt",
+  "description": "A 16-bit pixel art pirate treasure hunt game across Caribbean ports, ships, smuggler coves, taverns, and sunken vaults with camera QR code scanner.",
+  "requestFramePermissions": [
+    "camera"
+  ],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

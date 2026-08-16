@@ -1,0 +1,170 @@
+@import "tailwindcss";
+
+@layer utilities {
+  .font-pixel {
+    font-family: 'Press Start 2P', monospace;
+  }
+  .font-silkscreen {
+    font-family: 'Silkscreen', monospace;
+  }
+  .font-retro {
+    font-family: 'VT323', monospace;
+  }
+  
+  /* Retro 8-bit Pixel Borders */
+  .pixel-box {
+    box-shadow: 
+      0 -4px 0 0 #000,
+      0 4px 0 0 #000,
+      -4px 0 0 0 #000,
+      4px 0 0 0 #000;
+  }
+  
+  .pixel-box-sm {
+    box-shadow: 
+      0 -2px 0 0 #000,
+      0 2px 0 0 #000,
+      -2px 0 0 0 #000,
+      2px 0 0 0 #000;
+  }
+
+  .pixel-box-pirate {
+    box-shadow: 
+      0 -4px 0 0 #d97706,
+      0 4px 0 0 #d97706,
+      -4px 0 0 0 #d97706,
+      4px 0 0 0 #d97706,
+      inset -4px -4px 0 0 #78350f,
+      inset 4px 4px 0 0 #fef08a;
+  }
+
+  .pixel-box-wood {
+    box-shadow: 
+      0 -4px 0 0 #92400e,
+      0 4px 0 0 #92400e,
+      -4px 0 0 0 #92400e,
+      4px 0 0 0 #92400e,
+      inset -4px -4px 0 0 #451a03,
+      inset 4px 4px 0 0 #fde68a;
+  }
+
+  .pixel-box-caribbean {
+    box-shadow: 
+      0 -4px 0 0 #0d9488,
+      0 4px 0 0 #0d9488,
+      -4px 0 0 0 #0d9488,
+      4px 0 0 0 #0d9488,
+      inset -4px -4px 0 0 #115e59,
+      inset 4px 4px 0 0 #99f6e4;
+  }
+
+  .pixel-box-amber {
+    box-shadow: 
+      0 -4px 0 0 #f59e0b,
+      0 4px 0 0 #f59e0b,
+      -4px 0 0 0 #f59e0b,
+      4px 0 0 0 #f59e0b,
+      inset -4px -4px 0 0 #b45309,
+      inset 4px 4px 0 0 #fde68a;
+  }
+
+  .pixel-box-emerald {
+    box-shadow: 
+      0 -4px 0 0 #10b981,
+      0 4px 0 0 #10b981,
+      -4px 0 0 0 #10b981,
+      4px 0 0 0 #10b981,
+      inset -4px -4px 0 0 #047857,
+      inset 4px 4px 0 0 #a7f3d0;
+  }
+
+  .pixel-box-purple {
+    box-shadow: 
+      0 -4px 0 0 #a855f7,
+      0 4px 0 0 #a855f7,
+      -4px 0 0 0 #a855f7,
+      4px 0 0 0 #a855f7,
+      inset -4px -4px 0 0 #7e22ce,
+      inset 4px 4px 0 0 #e9d5ff;
+  }
+
+  .pixel-box-cyan {
+    box-shadow: 
+      0 -4px 0 0 #06b6d4,
+      0 4px 0 0 #06b6d4,
+      -4px 0 0 0 #06b6d4,
+      4px 0 0 0 #06b6d4,
+      inset -4px -4px 0 0 #0e7490,
+      inset 4px 4px 0 0 #a5f3fc;
+  }
+
+  .pixel-box-red {
+    box-shadow: 
+      0 -4px 0 0 #ef4444,
+      0 4px 0 0 #ef4444,
+      -4px 0 0 0 #ef4444,
+      4px 0 0 0 #ef4444,
+      inset -4px -4px 0 0 #b91c1c,
+      inset 4px 4px 0 0 #fca5a5;
+  }
+
+  .pixel-box-indigo {
+    box-shadow: 
+      0 -4px 0 0 #6366f1,
+      0 4px 0 0 #6366f1,
+      -4px 0 0 0 #6366f1,
+      4px 0 0 0 #6366f1,
+      inset -4px -4px 0 0 #4338ca,
+      inset 4px 4px 0 0 #c7d2fe;
+  }
+
+  .pixel-button {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    cursor: pointer;
+    user-select: none;
+    transition: transform 0.05s ease, filter 0.1s ease;
+  }
+
+  .pixel-button:active {
+    transform: translateY(2px);
+  }
+
+  /* Scanline effect for authentic CRT look */
+  .crt-scanlines {
+    background: linear-gradient(
+      rgba(18, 16, 16, 0) 50%, 
+      rgba(0, 0, 0, 0.15) 50%
+    );
+    background-size: 100% 4px;
+  }
+}
+
+/* Custom scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #0f172a;
+}
+::-webkit-scrollbar-thumb {
+  background: #334155;
+  border-radius: 0px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #f59e0b;
+}
+
+@keyframes pixelPulse {
+  0%, 100% { transform: scale(1); filter: brightness(1); }
+  50% { transform: scale(1.08); filter: brightness(1.25); }
+}
+
+.animate-pixel-pulse {
+  animation: pixelPulse 1.5s infinite ease-in-out;
+}
+
