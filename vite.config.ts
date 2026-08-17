@@ -6,7 +6,7 @@ import {defineConfig} from 'vite';
 export default defineConfig(() => {
   return {
     // Set base for GitHub Pages deployment. Update this if your repo name changes.
-    base: '/tresurehunt_0822/',
+    base: '/',
     plugins: [react(), tailwindcss()],
     resolve: {
       alias: {
