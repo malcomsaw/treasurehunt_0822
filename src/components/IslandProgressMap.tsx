@@ -1,6 +1,14 @@
 import React from 'react';
 import { QuestAssetData } from '../types';
 import { DEFAULT_QUESTS } from '../services/assetService';
+import avatarPic from '../assets/images/jacsparrow_1786546631506.jpg';
+import locPic1 from '../assets/images/pirate_page1_unknown.jpg';
+import locPic2 from '../assets/images/pirate_page2_smugglerscove_1786544323333.jpg';
+import locPic3 from '../assets/images/pirate_page3_shipdeck_1786544339973.jpg';
+import locPic4 from '../assets/images/pirate_page4_tortugabar_1786544358097.jpg';
+import locPic5 from '../assets/images/pirate_page5_piratecourt_1786544370604.jpg';
+import locPic6 from '../assets/images/pirate_page6_skullrock_1786544387275.jpg';
+import locPic7 from '../assets/images/pirate_page7_treasuresunken_1786544400315.jpg';
 
 interface IslandProgressMapProps {
   currentPage: number;
@@ -8,16 +16,16 @@ interface IslandProgressMapProps {
 }
 
 const ISLAND_IMAGES: Record<number, string> = {
-  1: '/src/assets/images/pirate_page1_unknown.jpg',
-  2: '/src/assets/images/pirate_page2_smugglerscove_1786544323333.jpg',
-  3: '/src/assets/images/pirate_page3_shipdeck_1786544339973.jpg',
-  4: '/src/assets/images/pirate_page4_tortugabar_1786544358097.jpg',
-  5: '/src/assets/images/pirate_page5_piratecourt_1786544370604.jpg',
-  6: '/src/assets/images/pirate_page6_skullrock_1786544387275.jpg',
-  7: '/src/assets/images/pirate_page7_treasuresunken_1786544400315.jpg',
+  1: locPic1,
+  2: locPic2,
+  3: locPic3,
+  4: locPic4,
+  5: locPic5,
+  6: locPic6,
+  7: locPic7,
 };
 
-const PIRATE_AVATAR = '/src/assets/images/jacsparrow_1786546631506.jpg';
+const PIRATE_AVATAR = avatarPic;
 
 // SVG curve points in viewBox 0 0 320 54
 const POINT_COORDS = [
