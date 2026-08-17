@@ -2,6 +2,8 @@ import React from 'react';
 import { Camera, Lock, Volume2, VolumeX, Sparkles, Compass } from 'lucide-react';
 import { QuestPageTheme } from '../types';
 import { soundEffects } from '../utils/soundEffects';
+import playerName from '/assets/header/header_cap_name.txt';
+import playerAvatar from '../assets/images/jacsparrow_1786546631506.jpg';
 
 interface HeaderProps {
   currentPage: number;
@@ -30,7 +32,7 @@ export const Header: React.FC<HeaderProps> = ({
   React.useEffect(() => {
     const loadCapName = async () => {
       try {
-        let res = await fetch('/assets/header/header_cap_name.txt');
+        let res = await fetch(playerName);
      
         if (res.ok) {
           const text = await res.text();
@@ -72,7 +74,7 @@ export const Header: React.FC<HeaderProps> = ({
           <div className="relative shrink-0">
             <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-lg border-2 border-amber-400 bg-slate-950 overflow-hidden shadow-md flex items-center justify-center">
               <img
-                src="/src/assets/images/jacsparrow_1786546631506.jpg"
+                src={playerAvatar}
                 alt="Captain Jack Sparrow"
                 className="w-full h-full object-cover"
               />

@@ -76,7 +76,7 @@ const DEFAULT_QUESTS: Record<number, QuestAssetData> = {
 
 export async function fetchQuestAssetData(pageNum: number, customOverrides?: Record<number, Partial<QuestAssetData>>): Promise<QuestAssetData> {
   const defaultData = DEFAULT_QUESTS[pageNum] || DEFAULT_QUESTS[1];
-  const pageFolder = `/assets/page${pageNum}`;
+  const pageFolder = `../../public/assets/page${pageNum}`;
 
   // Try fetching actual text files from public folder
   try {

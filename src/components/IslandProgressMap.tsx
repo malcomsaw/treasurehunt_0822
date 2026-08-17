@@ -1,7 +1,7 @@
 import React from 'react';
 import { QuestAssetData } from '../types';
 import { DEFAULT_QUESTS } from '../services/assetService';
-import avatarPic from '../assets/images/jacsparrow_1786546631506.jpg';
+import playerAvatar from '../assets/images/jacsparrow_1786546631506.jpg';
 import locPic1 from '../assets/images/pirate_page1_unknown.jpg';
 import locPic2 from '../assets/images/pirate_page2_smugglerscove_1786544323333.jpg';
 import locPic3 from '../assets/images/pirate_page3_shipdeck_1786544339973.jpg';
@@ -25,7 +25,7 @@ const ISLAND_IMAGES: Record<number, string> = {
   7: locPic7,
 };
 
-const PIRATE_AVATAR = avatarPic;
+const PIRATE_AVATAR = playerAvatar;
 
 // SVG curve points in viewBox 0 0 320 54
 const POINT_COORDS = [
