@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { Compass, Scroll, MapPin, Camera, Volume2, Check, Sparkles } from 'lucide-react';
 import { QuestPageTheme } from '../types';
 import { soundEffects } from '../utils/soundEffects';
-import playerName from '/assets/header/header_cap_name.txt';
 
 interface WelcomeModalProps {
   isOpen: boolean;
@@ -20,7 +19,7 @@ export const WelcomeModal: React.FC<WelcomeModalProps> = ({
   useEffect(() => {
     async function loadCaptainName() {
       try {
-        const res = await fetch(playerName);
+        const res = await fetch('/assets/header/header_cap_name.txt');
         if (res.ok) {
           const text = await res.text();
           if (text.trim()) {
