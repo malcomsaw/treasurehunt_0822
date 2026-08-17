@@ -82,6 +82,18 @@ export async function fetchQuestAssetData(pageNum: number, customOverrides?: Rec
   function resolveAssetUrl(p?: string) {
     if (!p) return p;
     // Strip leading /src/ if present (assets referenced from src/ during dev)
+    // If path points to an image inside src/assets/images, use Vite's URL handling
+    const imgMatch = p.match(/(?:\/|^)src\/assets\/images\/(.+)$/);
+    if (imgMatch && imgMatch[1]) {
+      const filename = imgMatch[1];
+      try {
+        // new URL will be rewritten by Vite during build to the hashed asset URL
+        return new URL(`../assets/images/${filename}`, import.meta.url).href;
+      } catch (err) {
+        // Fallback to public assets path
+      }
+    }
+
     let cleaned = p.replace(/^\/src\//, '').replace(/^\/+/, '');
     return `${base}${cleaned}`;
   }
