@@ -76,27 +76,7 @@ const DEFAULT_QUESTS: Record<number, QuestAssetData> = {
 
 export async function fetchQuestAssetData(pageNum: number, customOverrides?: Record<number, Partial<QuestAssetData>>): Promise<QuestAssetData> {
   const defaultData = DEFAULT_QUESTS[pageNum] || DEFAULT_QUESTS[1];
-  const base = (import.meta.env && (import.meta.env.BASE_URL ?? '/')) || '/';
-  const pageFolder = `${base}assets/page${pageNum}`;
-
-  function resolveAssetUrl(p?: string) {
-    if (!p) return p;
-    // Strip leading /src/ if present (assets referenced from src/ during dev)
-    // If path points to an image inside src/assets/images, use Vite's URL handling
-    const imgMatch = p.match(/(?:\/|^)src\/assets\/images\/(.+)$/);
-    if (imgMatch && imgMatch[1]) {
-      const filename = imgMatch[1];
-      try {
-        // new URL will be rewritten by Vite during build to the hashed asset URL
-        return new URL(`../assets/images/${filename}`, import.meta.url).href;
-      } catch (err) {
-        // Fallback to public assets path
-      }
-    }
-
-    let cleaned = p.replace(/^\/src\//, '').replace(/^\/+/, '');
-    return `${base}${cleaned}`;
-  }
+  const pageFolder = `./assets/page${pageNum}`;
 
   // Try fetching actual text files from public folder
   try {
@@ -132,24 +112,20 @@ export async function fetchQuestAssetData(pageNum: number, customOverrides?: Rec
       answer,
       reward,
       qrCodeKey,
-      pictureUrl: resolveAssetUrl(defaultData.pictureUrl)
+      pictureUrl: defaultData.pictureUrl
     };
 
     if (customOverrides && customOverrides[pageNum]) {
-      const merged = { ...fetchedData, ...customOverrides[pageNum] } as QuestAssetData;
-      if (merged.pictureUrl) merged.pictureUrl = resolveAssetUrl(merged.pictureUrl);
-      return merged;
+      return { ...fetchedData, ...customOverrides[pageNum] };
     }
 
     return fetchedData;
   } catch (err) {
     console.warn(`Failed fetching asset files for page ${pageNum}, using fallback defaults`, err);
     if (customOverrides && customOverrides[pageNum]) {
-      const merged = { ...defaultData, ...customOverrides[pageNum] } as QuestAssetData;
-      if (merged.pictureUrl) merged.pictureUrl = resolveAssetUrl(merged.pictureUrl);
-      return merged;
+      return { ...defaultData, ...customOverrides[pageNum] };
     }
-    return { ...defaultData, pictureUrl: resolveAssetUrl(defaultData.pictureUrl) };
+    return defaultData;
   }
 }
 
