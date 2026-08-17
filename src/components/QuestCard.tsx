@@ -14,6 +14,7 @@ import {
 } from 'lucide-react';
 import { QuestAssetData, QuestPageTheme } from '../types';
 import { soundEffects } from '../utils/soundEffects';
+import { resolveImageUrl } from '../utils/assetResolver';
 import { IslandProgressMap } from './IslandProgressMap';
 
 interface QuestCardProps {
@@ -126,7 +127,7 @@ export const QuestCard: React.FC<QuestCardProps> = ({
             <div className="relative shrink-0">
               <div className={`w-[90px] h-[90px] sm:w-[100px] sm:h-[100px] rounded-lg border-2 ${theme.borderColor} bg-slate-950 overflow-hidden shadow-inner flex items-center justify-center p-1`}>
                 <img
-                  src={questData.pictureUrl}
+                  src={resolveImageUrl(questData.pictureUrl)}
                   alt={questData.location}
                   referrerPolicy="no-referrer"
                   className="w-full h-full object-cover rounded bg-slate-900 transition-transform duration-300 hover:scale-105"

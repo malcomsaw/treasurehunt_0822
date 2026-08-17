@@ -2,8 +2,7 @@ import React from 'react';
 import { Camera, Lock, Volume2, VolumeX, Sparkles, Compass } from 'lucide-react';
 import { QuestPageTheme } from '../types';
 import { soundEffects } from '../utils/soundEffects';
-import playerName from '/assets/header/header_cap_name.txt';
-import playerAvatar from '../assets/images/jacsparrow_1786546631506.jpg';
+import { getPublicAssetUrl, getCaptainAvatarUrl } from '../utils/assetResolver';
 
 interface HeaderProps {
   currentPage: number;
@@ -28,11 +27,12 @@ export const Header: React.FC<HeaderProps> = ({
 }) => {
   const isPage4 = currentPage === 4;
   const [capName, setCapName] = React.useState<string>('Captain Jack Sparrow');
+  const avatarUrl = getCaptainAvatarUrl();
 
   React.useEffect(() => {
     const loadCapName = async () => {
       try {
-        let res = await fetch(playerName);
+        let res = await fetch(getPublicAssetUrl('assets/header/header_cap_name.txt'));
      
         if (res.ok) {
           const text = await res.text();
@@ -74,9 +74,12 @@ export const Header: React.FC<HeaderProps> = ({
           <div className="relative shrink-0">
             <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-lg border-2 border-amber-400 bg-slate-950 overflow-hidden shadow-md flex items-center justify-center">
               <img
-                src={playerAvatar}
+                src={avatarUrl}
                 alt="Captain Jack Sparrow"
                 className="w-full h-full object-cover"
+                onError={(e) => {
+                  (e.target as HTMLImageElement).src = 'https://picsum.photos/seed/jacksparrow/100/100';
+                }}
               />
             </div>
             <span className="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 bg-emerald-400 border border-slate-950 rounded-full" title="Active Captain"></span>

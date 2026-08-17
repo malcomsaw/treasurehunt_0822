@@ -1,4 +1,5 @@
 import { QuestAssetData } from '../types';
+import { getPublicAssetUrl, getIslandImageUrl, resolveImageUrl } from '../utils/assetResolver';
 
 const DEFAULT_QUESTS: Record<number, QuestAssetData> = {
   1: {
@@ -9,7 +10,7 @@ const DEFAULT_QUESTS: Record<number, QuestAssetData> = {
     quiz: "What word describes an outlaw seafaring rogue hunting for doubloons?",
     answer: "pirate",
     reward: "⚓ Captain's Doubloon #1715 — The harbour master whispers: Set sail towards Smuggler's Cove!",
-    pictureUrl: "/src/assets/images/pirate_page1_unknown.jpg"
+    pictureUrl: getIslandImageUrl(1)
   },
   2: {
     pageNum: 2,
@@ -19,7 +20,7 @@ const DEFAULT_QUESTS: Record<number, QuestAssetData> = {
     quiz: "What classic Caribbean rum-based spirit fills the tavern casks?",
     answer: "rum",
     reward: "🍶 Golden Flask of Tortuga Spiced Rum — The cave whispers: Board the Black Pearl ship deck!",
-    pictureUrl: "/src/assets/images/pirate_page2_smugglerscove_1786544323333.jpg"
+    pictureUrl: getIslandImageUrl(2)
   },
   3: {
     pageNum: 3,
@@ -29,7 +30,7 @@ const DEFAULT_QUESTS: Record<number, QuestAssetData> = {
     quiz: "What brass nautical navigation instrument guides the ship across uncharted waters?",
     answer: "compass",
     reward: "🧭 Navigator's Brass Spyglass — Land ho! Tortuga Pirate Bar ahead! Prepare your spyglass camera scanner!",
-    pictureUrl: "/src/assets/images/pirate_page3_shipdeck_1786544339973.jpg"
+    pictureUrl: getIslandImageUrl(3)
   },
   4: {
     pageNum: 4,
@@ -40,7 +41,7 @@ const DEFAULT_QUESTS: Record<number, QuestAssetData> = {
     answer: "PIRATE_QR_TORTUGA_TREASURE_77291",
     qrCodeKey: "PIRATE_QR_TORTUGA_TREASURE_77291",
     reward: "🏴‍☠️ Tortuga Pirate Council Seal — You found me, matey! The secret tavern code is verified! Click Next to enter the Pirate Court.",
-    pictureUrl: "/src/assets/images/pirate_page4_tortugabar_1786544358097.jpg"
+    pictureUrl: getIslandImageUrl(4)
   },
   5: {
     pageNum: 5,
@@ -50,7 +51,7 @@ const DEFAULT_QUESTS: Record<number, QuestAssetData> = {
     quiz: "What curved pirate sword is mounted above the captain's throne?",
     answer: "cutlass",
     reward: "⚔️ Royal Pirate Cutlass Crest — The Pirate Lords grant you passage to Skull Rock Island!",
-    pictureUrl: "/src/assets/images/pirate_page5_piratecourt_1786544370604.jpg"
+    pictureUrl: getIslandImageUrl(5)
   },
   6: {
     pageNum: 6,
@@ -60,7 +61,7 @@ const DEFAULT_QUESTS: Record<number, QuestAssetData> = {
     quiz: "What word describes the buried gold and jewels every pirate searches for?",
     answer: "treasure",
     reward: "🗺️ Cursed Skull Map — The secret location of Davy Jones' Vault is revealed in golden ink!",
-    pictureUrl: "/src/assets/images/pirate_page6_skullrock_1786544387275.jpg"
+    pictureUrl: getIslandImageUrl(6)
   },
   7: {
     pageNum: 7,
@@ -70,24 +71,24 @@ const DEFAULT_QUESTS: Record<number, QuestAssetData> = {
     quiz: "What famous pirate exclamation is shouted when sighting another ship or celebrating victory?",
     answer: "ahoy",
     reward: "👑 LEGENDARY CARIBBEAN PIRATE KING CROWN & CHEST OF GOLD DOUBLOONS! 🏴‍☠️💎 — You completed all 7 pirate quests, decoded all nautical clues, and scanned the Tortuga QR code! You are officially Pirate King of the Caribbean!",
-    pictureUrl: "/src/assets/images/pirate_page7_treasuresunken_1786544400315.jpg"
+    pictureUrl: getIslandImageUrl(7)
   }
 };
 
 export async function fetchQuestAssetData(pageNum: number, customOverrides?: Record<number, Partial<QuestAssetData>>): Promise<QuestAssetData> {
   const defaultData = DEFAULT_QUESTS[pageNum] || DEFAULT_QUESTS[1];
-  const pageFolder = `./assets/page${pageNum}`;
+  const pageRelPath = `assets/page${pageNum}`;
 
-  // Try fetching actual text files from public folder
+  // Try fetching actual text files from public folder using base-aware path
   try {
     const [locRes, instRes, clueRes, quizRes, ansRes, rewRes, qrRes] = await Promise.allSettled([
-      fetch(`${pageFolder}/location.txt`),
-      fetch(`${pageFolder}/instruction.txt`),
-      fetch(`${pageFolder}/clue.txt`),
-      fetch(`${pageFolder}/quiz.txt`),
-      fetch(`${pageFolder}/answer.txt`),
-      fetch(`${pageFolder}/reward.txt`),
-      fetch(`${pageFolder}/qr_code_key.txt`)
+      fetch(getPublicAssetUrl(`${pageRelPath}/location.txt`)),
+      fetch(getPublicAssetUrl(`${pageRelPath}/instruction.txt`)),
+      fetch(getPublicAssetUrl(`${pageRelPath}/clue.txt`)),
+      fetch(getPublicAssetUrl(`${pageRelPath}/quiz.txt`)),
+      fetch(getPublicAssetUrl(`${pageRelPath}/answer.txt`)),
+      fetch(getPublicAssetUrl(`${pageRelPath}/reward.txt`)),
+      fetch(getPublicAssetUrl(`${pageRelPath}/qr_code_key.txt`))
     ]);
 
     const location = (locRes.status === 'fulfilled' && locRes.value.ok) ? (await locRes.value.text()).trim() : defaultData.location;
@@ -116,14 +117,24 @@ export async function fetchQuestAssetData(pageNum: number, customOverrides?: Rec
     };
 
     if (customOverrides && customOverrides[pageNum]) {
-      return { ...fetchedData, ...customOverrides[pageNum] };
+      const override = customOverrides[pageNum];
+      return {
+        ...fetchedData,
+        ...override,
+        pictureUrl: override.pictureUrl ? resolveImageUrl(override.pictureUrl) : fetchedData.pictureUrl
+      };
     }
 
     return fetchedData;
   } catch (err) {
     console.warn(`Failed fetching asset files for page ${pageNum}, using fallback defaults`, err);
     if (customOverrides && customOverrides[pageNum]) {
-      return { ...defaultData, ...customOverrides[pageNum] };
+      const override = customOverrides[pageNum];
+      return {
+        ...defaultData,
+        ...override,
+        pictureUrl: override.pictureUrl ? resolveImageUrl(override.pictureUrl) : defaultData.pictureUrl
+      };
     }
     return defaultData;
   }

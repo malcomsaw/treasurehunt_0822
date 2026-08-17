@@ -1,31 +1,12 @@
 import React from 'react';
 import { QuestAssetData } from '../types';
 import { DEFAULT_QUESTS } from '../services/assetService';
-import playerAvatar from '../assets/images/jacsparrow_1786546631506.jpg';
-import locPic1 from '../assets/images/pirate_page1_unknown.jpg';
-import locPic2 from '../assets/images/pirate_page2_smugglerscove_1786544323333.jpg';
-import locPic3 from '../assets/images/pirate_page3_shipdeck_1786544339973.jpg';
-import locPic4 from '../assets/images/pirate_page4_tortugabar_1786544358097.jpg';
-import locPic5 from '../assets/images/pirate_page5_piratecourt_1786544370604.jpg';
-import locPic6 from '../assets/images/pirate_page6_skullrock_1786544387275.jpg';
-import locPic7 from '../assets/images/pirate_page7_treasuresunken_1786544400315.jpg';
+import { getIslandImageUrl, getCaptainAvatarUrl } from '../utils/assetResolver';
 
 interface IslandProgressMapProps {
   currentPage: number;
   allQuestData?: Record<number, QuestAssetData>;
 }
-
-const ISLAND_IMAGES: Record<number, string> = {
-  1: locPic1,
-  2: locPic2,
-  3: locPic3,
-  4: locPic4,
-  5: locPic5,
-  6: locPic6,
-  7: locPic7,
-};
-
-const PIRATE_AVATAR = playerAvatar;
 
 // SVG curve points in viewBox 0 0 320 54
 const POINT_COORDS = [
@@ -46,6 +27,8 @@ export const IslandProgressMap: React.FC<IslandProgressMapProps> = ({ currentPag
     const shortName = loc.split('-')[0].trim();
     return shortName || loc;
   };
+
+  const captainAvatar = getCaptainAvatarUrl();
 
   return (
     <div className="w-full bg-slate-950/90 border-2 border-amber-900/60 rounded-xl p-2.5 shadow-2xl relative overflow-hidden my-1">
@@ -89,6 +72,7 @@ export const IslandProgressMap: React.FC<IslandProgressMapProps> = ({ currentPag
             const rawIslandName = getIslandName(num);
             const displayedName = isRevealed ? rawIslandName : '???';
             const hoverTitle = isRevealed ? rawIslandName : `Isle ${num} - Uncharted (Reach here to reveal)`;
+            const islandImgSrc = getIslandImageUrl(num, allQuestData?.[num]?.pictureUrl);
 
             return (
               <div
@@ -109,9 +93,12 @@ export const IslandProgressMap: React.FC<IslandProgressMapProps> = ({ currentPag
                       title="Captain Jack Sparrow"
                     >
                       <img
-                        src={PIRATE_AVATAR}
+                        src={captainAvatar}
                         alt="Jack Sparrow Pirate"
                         className="w-full h-full object-cover"
+                        onError={(e) => {
+                          (e.target as HTMLImageElement).src = 'https://picsum.photos/seed/jacksparrow/100/100';
+                        }}
                       />
                     </div>
                   )}
@@ -127,9 +114,12 @@ export const IslandProgressMap: React.FC<IslandProgressMapProps> = ({ currentPag
                     }`}
                   >
                     <img
-                      src={ISLAND_IMAGES[num]}
+                      src={islandImgSrc}
                       alt={displayedName}
                       className="w-full h-full object-cover"
+                      onError={(e) => {
+                        (e.target as HTMLImageElement).src = `https://picsum.photos/seed/pixel${num}/100/100`;
+                      }}
                     />
                   </div>
 
@@ -168,4 +158,3 @@ export const IslandProgressMap: React.FC<IslandProgressMapProps> = ({ currentPag
     </div>
   );
 };
-
