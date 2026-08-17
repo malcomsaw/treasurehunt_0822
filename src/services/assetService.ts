@@ -76,7 +76,15 @@ const DEFAULT_QUESTS: Record<number, QuestAssetData> = {
 
 export async function fetchQuestAssetData(pageNum: number, customOverrides?: Record<number, Partial<QuestAssetData>>): Promise<QuestAssetData> {
   const defaultData = DEFAULT_QUESTS[pageNum] || DEFAULT_QUESTS[1];
-  const pageFolder = `../../public/assets/page${pageNum}`;
+  const base = (import.meta.env && (import.meta.env.BASE_URL ?? '/')) || '/';
+  const pageFolder = `${base}assets/page${pageNum}`;
+
+  function resolveAssetUrl(p?: string) {
+    if (!p) return p;
+    // Strip leading /src/ if present (assets referenced from src/ during dev)
+    let cleaned = p.replace(/^\/src\//, '').replace(/^\/+/, '');
+    return `${base}${cleaned}`;
+  }
 
   // Try fetching actual text files from public folder
   try {
@@ -112,20 +120,24 @@ export async function fetchQuestAssetData(pageNum: number, customOverrides?: Rec
       answer,
       reward,
       qrCodeKey,
-      pictureUrl: defaultData.pictureUrl
+      pictureUrl: resolveAssetUrl(defaultData.pictureUrl)
     };
 
     if (customOverrides && customOverrides[pageNum]) {
-      return { ...fetchedData, ...customOverrides[pageNum] };
+      const merged = { ...fetchedData, ...customOverrides[pageNum] } as QuestAssetData;
+      if (merged.pictureUrl) merged.pictureUrl = resolveAssetUrl(merged.pictureUrl);
+      return merged;
     }
 
     return fetchedData;
   } catch (err) {
     console.warn(`Failed fetching asset files for page ${pageNum}, using fallback defaults`, err);
     if (customOverrides && customOverrides[pageNum]) {
-      return { ...defaultData, ...customOverrides[pageNum] };
+      const merged = { ...defaultData, ...customOverrides[pageNum] } as QuestAssetData;
+      if (merged.pictureUrl) merged.pictureUrl = resolveAssetUrl(merged.pictureUrl);
+      return merged;
     }
-    return defaultData;
+    return { ...defaultData, pictureUrl: resolveAssetUrl(defaultData.pictureUrl) };
   }
 }
 
