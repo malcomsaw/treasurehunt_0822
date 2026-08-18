@@ -1,1 +1,2 @@
-Placeholder pin #2
+! Here is your reward -- Next location and a secret pin!
+Pin: 5
