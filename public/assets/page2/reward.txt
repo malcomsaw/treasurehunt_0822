@@ -1,2 +1,3 @@
-! Here is your reward -- Next location and a secret pin!
-Pin: 5
+Splendidly done, eagle-eye! Nothing sneaks past ye in this port, no matter how clever the phantom hand that planted it. Another piece of the map falls into yer hands!
+
+PIN: 3
