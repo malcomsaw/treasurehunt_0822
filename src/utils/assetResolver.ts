@@ -83,13 +83,13 @@ export function resolveImageUrl(input?: string): string {
 
 // Default image filenames for the 7 quest islands
 export const DEFAULT_ISLAND_IMAGE_NAMES: Record<number, string> = {
-  1: 'pirate_page1_unknown.jpg',
-  2: 'pirate_page2_smugglerscove_1786544323333.jpg',
-  3: 'pirate_page3_shipdeck_1786544339973.jpg',
-  4: 'pirate_page4_tortugabar_1786544358097.jpg',
-  5: 'pirate_page5_piratecourt_1786544370604.jpg',
-  6: 'pirate_page6_skullrock_1786544387275.jpg',
-  7: 'pirate_page7_treasuresunken_1786544400315.jpg',
+  1: 'GCH.jpeg',
+  2: 'QMA.jpeg',
+  3: 'BOOKX.jpeg',
+  4: 'GYPSY.png',
+  5: 'KLCC.jpeg',
+  6: 'QM.jpg',
+  7: 'PS.jpg',
 };
 
 export const CAPTAIN_AVATAR_NAME = 'jacsparrow_1786546631506.jpg';
