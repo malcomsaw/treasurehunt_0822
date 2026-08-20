@@ -215,7 +215,7 @@ export default function App() {
       {/* Page 4 QR Success Reward Modal */}
       <QRSuccessModal
         isOpen={showQRSuccessModal}
-        rewardContent={questDataMap[4]?.reward || "🏴‍☠️ Tortuga Pirate Council Seal — You found me, matey! The secret tavern code is verified!"}
+        rewardContent={questDataMap[4]?.reward || "🏴‍☠️ You've managed to find Calypso and lift the mist!"}
         onNextPage={() => {
           setShowQRSuccessModal(false);
           handleNextPage(); // Advances from Page 4 to Page 5!
