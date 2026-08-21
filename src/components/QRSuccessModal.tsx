@@ -67,10 +67,10 @@ export const QRSuccessModal: React.FC<QRSuccessModalProps> = ({
         <div className="w-full bg-slate-950/90 border-2 border-amber-500/50 rounded-xl p-4 shadow-inner text-amber-200 text-left space-y-2">
           <div className="flex items-center gap-2 text-amber-400 text-xs font-pixel border-b border-amber-500/30 pb-2">
             <Gift className="w-4 h-4" />
-            <span>TORTUGA REWARD UNLOCKED</span>
+            <span>REWARD UNLOCKED</span>
           </div>
           <p className="font-retro text-lg leading-relaxed text-slate-100 font-semibold tracking-wide">
-            {rewardContent || "🏴‍☠️ Tortuga Pirate Council Seal — You found me, matey! The secret tavern code is verified!"}
+            {rewardContent || "🏴‍☠️ You've managed to find Calypso and lift the mist!"}
           </p>
         </div>
 
